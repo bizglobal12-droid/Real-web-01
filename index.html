@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Imran Ahmad Auwal | AI Specialist & Educator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0a0f1c',      // Deep navy background
+                            light: '#e2e8f0',     // Light slate text
+                            primary: '#0ea5e9',   // Bright blue accent (from image)
+                            secondary: '#38bdf8', // Lighter blue accent
+                            accent: '#f59e0b',    // Gold/Amber accent for luxury feel
+                            surface: '#111827',   // Slightly lighter dark for cards
+                            card: 'rgba(17, 24, 39, 0.7)' // Glassmorphism card
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                        'hero-glow': 'radial-gradient(circle at 50% 50%, rgba(14, 165, 233, 0.15) 0%, transparent 60%)',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050810;
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+        
+        .glass-nav {
+            background: rgba(5, 8, 16, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(14, 165, 233, 0.1);
+        }
+
+        .glass-card {
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(14, 165, 233, 0.15);
+            border-color: rgba(14, 165, 233, 0.3);
+        }
+
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #38bdf8, #0ea5e9, #818cf8);
+        }
+        
+        .text-gradient-gold {
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to right, #fbbf24, #f59e0b);
+        }
+
+        .btn-luxury {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+        
+        .btn-luxury::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+            z-index: -1;
+        }
+        
+        .btn-luxury:hover::before {
+            left: 100%;
+        }
+        
+        .btn-luxury:hover {
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0a0f1c; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0ea5e9; 
+        }
+
+        /* Quiz specific styles */
+        .option-btn.selected {
+            border-color: #0ea5e9;
+            background-color: rgba(14, 165, 233, 0.1);
+        }
+        .option-btn.correct {
+            border-color: #22c55e !important;
+            background-color: rgba(34, 197, 94, 0.1) !important;
+            color: #4ade80;
+        }
+        .option-btn.wrong {
+            border-color: #ef4444 !important;
+            background-color: rgba(239, 68, 68, 0.1) !important;
+            color: #f87171;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+
+        /* Module content reveal */
+        .module-content {
+            display: none;
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        .module-content.active {
+            display: block;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #0ea5e9;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-primary selection:text-white">
+
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <span class="font-serif text-2xl font-bold tracking-wider text-white">
+                        IMRAN<span class="text-brand-primary">.</span>
+                    </span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="nav-link text-sm font-medium text-gray-300 hover:text-white transition-colors">About</a>
+                    <a href="#resume" class="nav-link text-sm font-medium text-gray-300 hover:text-white transition-colors">Resume</a>
+                    <a href="#skills" class="nav-link text-sm font-medium text-gray-300 hover:text-white transition-colors">Skills</a>
+                    
+                    <!-- Dropdown for Study -->
+                    <div class="relative group">
+                        <button class="nav-link text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                            Study AI <i class="fa-solid fa-chevron-down text-xs transition-transform group-hover:rotate-180"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-64 rounded-xl glass-card opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 border border-gray-800 p-2 shadow-xl">
+                            <a href="#study-hub" onclick="openModule(1)" class="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
+                                <i class="fa-solid fa-book-open text-brand-primary mr-2 w-4"></i> Module 1: AI Fundamentals
+                            </a>
+                            <a href="#study-hub" onclick="openModule(2)" class="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
+                                <i class="fa-solid fa-brain text-brand-primary mr-2 w-4"></i> Module 2: AI Fluency
+                            </a>
+                            <a href="#study-hub" onclick="openModule(3)" class="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
+                                <i class="fa-solid fa-database text-brand-primary mr-2 w-4"></i> Module 3: Data Pipeline
+                            </a>
+                            <a href="#study-hub" onclick="openModule(4)" class="block px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
+                                <i class="fa-regular fa-comment-dots text-brand-primary mr-2 w-4"></i> Module 4: Prompt Engineering
+                            </a>
+                            <div class="border-t border-gray-800 my-1"></div>
+                            <a href="#quiz-section" class="block px-4 py-3 text-sm text-brand-secondary font-medium hover:text-brand-primary hover:bg-gray-800 rounded-lg transition-colors">
+                                <i class="fa-solid fa-flask text-brand-accent mr-2 w-4"></i> Take Assessment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-nav border-t border-gray-800 absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#about" class="block px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">About</a>
+                <a href="#resume" class="block px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Resume</a>
+                <a href="#skills" class="block px-3 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Skills</a>
+                <div class="border-t border-gray-800 my-2 pt-2">
+                    <p class="px-3 text-xs uppercase tracking-wider text-gray-500 font-semibold mb-2">Study AI</p>
+                    <a href="#study-hub" onclick="openModule(1); closeMobileMenu()" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 pl-6">- Fundamentals</a>
+                    <a href="#study-hub" onclick="openModule(2); closeMobileMenu()" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 pl-6">- AI Fluency</a>
+                    <a href="#study-hub" onclick="openModule(3); closeMobileMenu()" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 pl-6">- Data Pipeline</a>
+                    <a href="#study-hub" onclick="openModule(4); closeMobileMenu()" class="block px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 pl-6">- Prompt Engineering</a>
+                    <a href="#quiz-section" onclick="closeMobileMenu()" class="block px-3 py-2 rounded-md text-sm font-medium text-brand-secondary hover:text-brand-primary hover:bg-gray-800 pl-6 mt-2">- Assessment Quiz</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative min-h-screen flex items-center pt-20 overflow-hidden bg-hero-glow">
+        <!-- Background decorative elements -->
+        <div class="absolute top-1/4 left-10 w-72 h-72 bg-brand-primary rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-pulse-slow"></div>
+        <div class="absolute bottom-1/4 right-10 w-80 h-80 bg-purple-600 rounded-full mix-blend-multiply filter blur-[128px] opacity-20 animate-pulse-slow" style="animation-delay: 1.5s"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+                
+                <!-- Hero Text -->
+                <div class="w-full lg:w-1/2 flex flex-col justify-center animate-slide-up" style="opacity: 0;">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card border-brand-primary/30 w-max mb-6">
+                        <span class="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></span>
+                        <span class="text-xs font-semibold tracking-wide text-brand-primary uppercase">Available for Work</span>
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-4 leading-tight">
+                        Building the <br>
+                        <span class="text-gradient font-serif italic pr-2">Future</span> with AI.
+                    </h1>
+                    
+                    <p class="text-xl text-gray-400 mb-2 font-medium">IMRAN AHMAD AUWAL</p>
+                    <p class="text-lg text-gray-400 mb-8 max-w-lg leading-relaxed">
+                        AI Data Annotation | LLM Evaluation | Prompt Engineering | Multimodal AI Specialist
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#resume" class="btn-luxury px-8 py-3 rounded-lg bg-brand-primary text-white font-medium hover:bg-sky-400 focus:ring-4 focus:ring-sky-500/50 flex items-center gap-2">
+                            View Profile <i class="fa-solid fa-arrow-right text-sm"></i>
+                        </a>
+                        <a href="#study-hub" class="btn-luxury px-8 py-3 rounded-lg glass-card text-white font-medium hover:border-brand-primary/50 focus:ring-4 focus:ring-gray-700 flex items-center gap-2">
+                            Enter AI Hub <i class="fa-solid fa-graduation-cap text-sm"></i>
+                        </a>
+                    </div>
+
+                    <div class="mt-12 pt-8 border-t border-gray-800 flex gap-6 items-center">
+                        <p class="text-sm text-gray-500 uppercase tracking-wider font-semibold">Connect</p>
+                        <div class="flex gap-4">
+                            <a href="mailto:bizglobal12@gmail.com" class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-400 hover:text-brand-primary hover:border-brand-primary transition-all">
+                                <i class="fa-regular fa-envelope"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-400 hover:text-brand-primary hover:border-brand-primary transition-all">
+                                <i class="fa-brands fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-400 hover:text-brand-primary hover:border-brand-primary transition-all">
+                                <i class="fa-brands fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Image Area (Representing p10.jpeg styling) -->
+                <div class="w-full lg:w-1/2 relative flex justify-center animate-slide-up" style="opacity: 0; animation-delay: 0.2s;">
+                    <div class="relative w-full max-w-md aspect-[4/5] rounded-2xl overflow-hidden glass-card p-2 border-brand-primary/20">
+                        <!-- Placeholder for p10.jpeg. In a real scenario, this would be an <img> tag pointing to p10.jpeg -->
+                        <div class="w-full h-full rounded-xl overflow-hidden relative bg-gray-900 group">
+                            <!-- Simulating the image content -->
+                            <img src="p10.jpeg" alt="Imran Ahmad Auwal" class="w-full h-full object-cover object-center opacity-80 group-hover:opacity-100 transition-opacity duration-500" onerror="this.src='https://placehold.co/600x800/111827/0ea5e9?text=Imran+Ahmad+Auwal\n(p10.jpeg)'; this.classList.remove('object-cover'); this.classList.add('object-contain', 'p-4');">
+                            
+                            <!-- Overlay design elements mimicking the poster -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a0f1c] via-transparent to-transparent"></div>
+                            
+                            <!-- Quote overlay -->
+                            <div class="absolute top-6 left-6 max-w-[200px] glass-card p-4 rounded-xl border-l-4 border-l-brand-primary bg-black/40 backdrop-blur-sm">
+                                <i class="fa-solid fa-quote-left text-brand-primary text-xl mb-2 opacity-50"></i>
+                                <p class="text-sm text-gray-200 font-serif leading-snug">Continuous learning is the key to unlocking endless possibilities in the world of AI.</p>
+                            </div>
+
+                            <!-- Skills overlay -->
+                            <div class="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-3">
+                                <div class="w-12 h-12 rounded-xl glass-card flex items-center justify-center text-brand-primary hover:scale-110 transition-transform cursor-help" title="Artificial Intelligence">
+                                    <i class="fa-solid fa-brain text-lg"></i>
+                                </div>
+                                <div class="w-12 h-12 rounded-xl glass-card flex items-center justify-center text-brand-primary hover:scale-110 transition-transform cursor-help" title="Machine Learning">
+                                    <i class="fa-solid fa-network-wired text-lg"></i>
+                                </div>
+                                <div class="w-12 h-12 rounded-xl glass-card flex items-center justify-center text-brand-primary hover:scale-110 transition-transform cursor-help" title="LLM & NLP">
+                                    <i class="fa-solid fa-robot text-lg"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="resume" class="py-24 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center mb-16 animate-slide-up">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Professional <span class="text-gradient">Profile</span></h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-brand-primary to-transparent mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Content Column -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Summary -->
+                    <div class="glass-card rounded-2xl p-8 hover:border-gray-700">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary">
+                                <i class="fa-solid fa-user-tie text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-semibold">Summary</h3>
+                        </div>
+                        <p class="text-gray-300 leading-relaxed">
+                            An experienced and analytical AI Data Annotation and LLM Evaluation Specialist with hands-on experience assessing large language models, benchmarking AI responses, prompt engineering, multimodal content analysis, and quality assurance. Skilled in using advanced evaluation rubrics, diagnosing model limitations, and delivering excellent training data to advance frontier AI. Proven expertise in AI safety, critical thinking, and evidence-based evaluation, with a drive for accuracy and lifelong learning.
+                        </p>
+                    </div>
+
+                    <!-- Experience -->
+                    <div class="glass-card rounded-2xl p-8 hover:border-gray-700">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary">
+                                <i class="fa-solid fa-briefcase text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-semibold">Experience</h3>
+                        </div>
+                        
+                        <div class="relative pl-8 border-l-2 border-gray-800 pb-4">
+                            <div class="absolute w-4 h-4 rounded-full bg-brand-primary -left-[9px] top-1 shadow-[0_0_10px_rgba(14,165,233,0.5)]"></div>
+                            <h4 class="text-xl font-medium text-white mb-1">Independent AI Data Contributor</h4>
+                            <p class="text-sm text-brand-primary mb-4 font-medium">Remote Freelance</p>
+                            
+                            <ul class="space-y-3 text-gray-400 text-sm md:text-base">
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-brand-primary mt-1 text-xs"></i>
+                                    <span>Reviewed and evaluated AI-generated responses for accuracy, relevance, and safety.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-brand-primary mt-1 text-xs"></i>
+                                    <span>Conducted internet research to confirm information and data, assessing content based on established, comprehensive instructions.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-brand-primary mt-1 text-xs"></i>
+                                    <span>Offered systematic feedback and recommendations to enhance AI model development and performance.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-brand-primary mt-1 text-xs"></i>
+                                    <span>Ensured a high level of accuracy and consistency in multiple task segments, employing critical thinking to detect factual inaccuracies.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fa-solid fa-check text-brand-primary mt-1 text-xs"></i>
+                                    <span>Performed detailed work remotely with stringent deadlines.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- AI & Digital Competencies -->
+                    <div class="glass-card rounded-2xl p-8 hover:border-gray-700">
+                         <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary">
+                                <i class="fa-solid fa-microchip text-xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-semibold">AI & Digital Competencies</h3>
+                        </div>
+                        <p class="text-gray-300 leading-relaxed mb-6">
+                            Generative AI Fundamentals, Large Language Model familiarity, Prompt writing and refinement, AI Output evaluation, Human-in-the-Loop feedback, Data quality assurance, Content moderation, Concepts research methodologies.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800 text-gray-300 border border-gray-700">Digital literacy</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800 text-gray-300 border border-gray-700">Online Collaboration</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800 text-gray-300 border border-gray-700">High attention to detail</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800 text-gray-300 border border-gray-700">Strong analytical skills</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800 text-gray-300 border border-gray-700">Dependable</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800 text-gray-300 border border-gray-700">Quick learner</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800 text-gray-300 border border-gray-700">Quality-Focused</span>
+                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-gray-800 text-gray-300 border border-gray-700">Ethical and Professional</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar Column -->
+                <div id="skills" class="space-y-8">
+                    <!-- Core Competencies -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-white border-b border-gray-800 pb-2">Core Competencies</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center gap-3 text-sm text-gray-300 hover:text-brand-primary transition-colors cursor-default">
+                                <div class="w-1.5 h-1.5 rounded-full bg-brand-primary"></div> LLM Evaluation
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-gray-300 hover:text-brand-primary transition-colors cursor-default">
+                                <div class="w-1.5 h-1.5 rounded-full bg-brand-primary"></div> Prompt Engineering
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-gray-300 hover:text-brand-primary transition-colors cursor-default">
+                                <div class="w-1.5 h-1.5 rounded-full bg-brand-primary"></div> RAG
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-gray-300 hover:text-brand-primary transition-colors cursor-default">
+                                <div class="w-1.5 h-1.5 rounded-full bg-brand-primary"></div> RLHF
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-gray-300 hover:text-brand-primary transition-colors cursor-default">
+                                <div class="w-1.5 h-1.5 rounded-full bg-brand-primary"></div> AI Data Annotation
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-gray-300 hover:text-brand-primary transition-colors cursor-default">
+                                <div class="w-1.5 h-1.5 rounded-full bg-brand-primary"></div> Multimodal AI Evaluation
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-gray-300 hover:text-brand-primary transition-colors cursor-default">
+                                <div class="w-1.5 h-1.5 rounded-full bg-brand-primary"></div> Benchmarking
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-gray-300 hover:text-brand-primary transition-colors cursor-default">
+                                <div class="w-1.5 h-1.5 rounded-full bg-brand-primary"></div> Quality Assurance
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-gray-300 hover:text-brand-primary transition-colors cursor-default">
+                                <div class="w-1.5 h-1.5 rounded-full bg-brand-primary"></div> OCR Evaluation
+                            </li>
+                            <li class="flex items-center gap-3 text-sm text-gray-300 hover:text-brand-primary transition-colors cursor-default">
+                                <div class="w-1.5 h-1.5 rounded-full bg-brand-primary"></div> Technical Documentation
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Technical Skills -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-white border-b border-gray-800 pb-2">Technical Skills</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-300">Python</span>
+                                </div>
+                                <div class="w-full bg-gray-800 rounded-full h-1.5">
+                                    <div class="bg-brand-primary h-1.5 rounded-full" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-300">SQL (Basic)</span>
+                                </div>
+                                <div class="w-full bg-gray-800 rounded-full h-1.5">
+                                    <div class="bg-brand-primary h-1.5 rounded-full" style="width: 50%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="text-gray-300">HTML & CSS</span>
+                                </div>
+                                <div class="w-full bg-gray-800 rounded-full h-1.5">
+                                    <div class="bg-brand-primary h-1.5 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mt-4">
+                                <span class="px-2 py-1 bg-gray-800/50 rounded text-xs text-gray-400 border border-gray-700/50"><i class="fa-brands fa-git-alt mr-1"></i>Git/GitHub</span>
+                                <span class="px-2 py-1 bg-gray-800/50 rounded text-xs text-gray-400 border border-gray-700/50"><i class="fa-solid fa-code mr-1"></i>VS Code</span>
+                                <span class="px-2 py-1 bg-gray-800/50 rounded text-xs text-gray-400 border border-gray-700/50"><i class="fa-brands fa-microsoft mr-1"></i>Office</span>
+                                <span class="px-2 py-1 bg-gray-800/50 rounded text-xs text-gray-400 border border-gray-700/50"><i class="fa-brands fa-google mr-1"></i>Workspace</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Languages -->
+                    <div class="glass-card rounded-2xl p-6">
+                        <h3 class="text-lg font-semibold mb-4 text-white border-b border-gray-800 pb-2">Languages</h3>
+                        <ul class="space-y-4">
+                            <li>
+                                <div class="flex justify-between items-end mb-1">
+                                    <span class="text-sm text-gray-200">English</span>
+                                    <span class="text-xs text-brand-primary">Full Professional</span>
+                                </div>
+                                <div class="flex gap-1">
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-end mb-1">
+                                    <span class="text-sm text-gray-200">Hausa</span>
+                                    <span class="text-xs text-brand-primary">Native</span>
+                                </div>
+                                <div class="flex gap-1">
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-end mb-1">
+                                    <span class="text-sm text-gray-200">Arabic</span>
+                                    <span class="text-xs text-brand-primary">Fluent</span>
+                                </div>
+                                <div class="flex gap-1">
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-gray-800 rounded-full"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-end mb-1">
+                                    <span class="text-sm text-gray-200">French</span>
+                                    <span class="text-xs text-brand-primary">Fluent</span>
+                                </div>
+                                <div class="flex gap-1">
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-gray-800 rounded-full"></div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="flex justify-between items-end mb-1">
+                                    <span class="text-sm text-gray-200">Yoruba</span>
+                                    <span class="text-xs text-brand-primary">Professional</span>
+                                </div>
+                                <div class="flex gap-1">
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-brand-primary rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-gray-800 rounded-full"></div>
+                                    <div class="h-1 flex-1 bg-gray-800 rounded-full"></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="study-hub" class="py-24 relative bg-[#070b14] border-y border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <p class="text-brand-accent font-semibold tracking-widest text-sm uppercase mb-2"><i class="fa-solid fa-graduation-cap mr-2"></i>Knowledge Center</p>
+                <h2 class="text-3xl md:text-5xl font-bold mb-4">The <span class="text-gradient">AI Study</span> Hub</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Explore comprehensive modules designed to take you from AI fundamentals to advanced prompt engineering.</p>
+            </div>
+
+            <!-- Module Navigation Tabs -->
+            <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
+                <button onclick="openModule(1)" id="tab-1" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border border-brand-primary bg-brand-primary/10 text-white shadow-[0_0_15px_rgba(14,165,233,0.3)]">
+                    1. Fundamentals
+                </button>
+                <button onclick="openModule(2)" id="tab-2" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border border-gray-700 bg-gray-800/50 text-gray-400 hover:text-white hover:border-gray-500">
+                    2. AI Fluency
+                </button>
+                <button onclick="openModule(3)" id="tab-3" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border border-gray-700 bg-gray-800/50 text-gray-400 hover:text-white hover:border-gray-500">
+                    3. Data Pipeline
+                </button>
+                <button onclick="openModule(4)" id="tab-4" class="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border border-gray-700 bg-gray-800/50 text-gray-400 hover:text-white hover:border-gray-500">
+                    4. Prompt Engineering
+                </button>
+            </div>
+
+            <!-- Modules Content Container -->
+            <div class="glass-card rounded-2xl p-6 md:p-10 min-h-[400px]">
+                
+                <!-- Module 1 -->
+                <div id="module-1" class="module-content active">
+                    <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                        <div class="w-10 h-10 rounded-lg bg-brand-primary/20 flex items-center justify-center text-brand-primary">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Module 1: AI Fundamentals</h3>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-lg font-semibold text-brand-secondary mb-3">History of AI</h4>
+                            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+                                Artificial Intelligence began as a concept in the mid-20th century, notably with Alan Turing's proposition of machine intelligence. The field officially started at the Dartmouth Conference in 1956. It has experienced periods of high optimism followed by "AI winters" (reduced funding/interest) before culminating in the current boom driven by vast data and computing power.
+                            </p>
+                            <h4 class="text-lg font-semibold text-brand-secondary mb-3">Machine Learning (ML)</h4>
+                            <p class="text-gray-300 text-sm leading-relaxed">
+                                A subset of AI where systems learn from data to identify patterns and make decisions with minimal human intervention. Instead of explicitly programming rules, models are trained on datasets.
+                            </p>
+                        </div>
+                        <div class="space-y-4">
+                             <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700">
+                                <h4 class="text-base font-semibold text-white mb-2"><i class="fa-solid fa-language text-brand-primary mr-2"></i>Natural Language Processing (NLP)</h4>
+                                <p class="text-gray-400 text-xs">Enables computers to understand, interpret, and generate human language. It bridges human communication and computer understanding.</p>
+                            </div>
+                            <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700">
+                                <h4 class="text-base font-semibold text-white mb-2"><i class="fa-solid fa-layer-group text-brand-primary mr-2"></i>Deep Learning</h4>
+                                <p class="text-gray-400 text-xs">A subset of ML based on artificial neural networks with multiple layers (hence "deep"). It excels at finding complex patterns in massive amounts of unstructured data.</p>
+                            </div>
+                            <div class="bg-gray-800/50 p-4 rounded-xl border border-gray-700">
+                                <h4 class="text-base font-semibold text-white mb-2"><i class="fa-solid fa-eye text-brand-primary mr-2"></i>Computer Vision</h4>
+                                <p class="text-gray-400 text-xs">A field of AI that enables computers to derive meaningful information from digital images, videos, and other visual inputs, and take actions based on that information.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 2 -->
+                <div id="module-2" class="module-content">
+                    <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                        <div class="w-10 h-10 rounded-lg bg-brand-primary/20 flex items-center justify-center text-brand-primary">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Module 2: AI Fluency & LLMs</h3>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div class="p-6 bg-gradient-to-br from-gray-800/50 to-transparent border border-gray-700 rounded-xl">
+                            <h4 class="text-xl font-semibold text-brand-secondary mb-2">Large Language Models (LLMs)</h4>
+                            <p class="text-gray-300 text-sm leading-relaxed mb-4">
+                                LLMs are massive deep learning models pre-trained on vast amounts of text data. They use transformer architectures to predict the next word in a sequence, enabling them to generate human-like text, translate languages, write code, and answer complex questions.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-brand-primary/20 text-brand-primary px-2 py-1 rounded border border-brand-primary/30">Transformers</span>
+                                <span class="text-xs bg-brand-primary/20 text-brand-primary px-2 py-1 rounded border border-brand-primary/30">Parameters</span>
+                                <span class="text-xs bg-brand-primary/20 text-brand-primary px-2 py-1 rounded border border-brand-primary/30">Tokens</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="text-lg font-semibold text-white mb-3">Developing AI Fluency</h4>
+                            <p class="text-gray-400 text-sm mb-4">AI fluency is the ability to understand how AI systems work, their capabilities, limitations, and the ethical implications of using them.</p>
+                            
+                            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <li class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-800/50 transition-colors">
+                                    <i class="fa-solid fa-check-circle text-green-500 mt-1"></i>
+                                    <div>
+                                        <strong class="text-gray-200 text-sm block">Understanding Capabilities</strong>
+                                        <span class="text-gray-500 text-xs">Knowing what tasks AI excels at (summarization, ideation) vs. what it struggles with (factual verification).</span>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-800/50 transition-colors">
+                                    <i class="fa-solid fa-triangle-exclamation text-yellow-500 mt-1"></i>
+                                    <div>
+                                        <strong class="text-gray-200 text-sm block">Recognizing Hallucinations</strong>
+                                        <span class="text-gray-500 text-xs">The ability to identify when an LLM generates false or nonsensical information presented confidently.</span>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-800/50 transition-colors">
+                                    <i class="fa-solid fa-scale-balanced text-brand-accent mt-1"></i>
+                                    <div>
+                                        <strong class="text-gray-200 text-sm block">Ethical Awareness</strong>
+                                        <span class="text-gray-500 text-xs">Understanding bias in training data, privacy concerns, and responsible deployment.</span>
+                                    </div>
+                                </li>
+                                 <li class="flex items-start gap-3 p-3 rounded-lg hover:bg-gray-800/50 transition-colors">
+                                    <i class="fa-solid fa-magnifying-glass-chart text-blue-400 mt-1"></i>
+                                    <div>
+                                        <strong class="text-gray-200 text-sm block">Critical Evaluation</strong>
+                                        <span class="text-gray-500 text-xs">Not taking outputs at face value and employing human-in-the-loop verification.</span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 3 -->
+                <div id="module-3" class="module-content">
+                    <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                        <div class="w-10 h-10 rounded-lg bg-brand-primary/20 flex items-center justify-center text-brand-primary">
+                            <i class="fa-solid fa-database"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Module 3: Data Pipeline</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Datasets -->
+                        <div class="glass-card p-5 rounded-xl border-t-4 border-t-blue-500">
+                            <div class="text-3xl text-blue-500 mb-3"><i class="fa-solid fa-server"></i></div>
+                            <h4 class="text-lg font-bold text-white mb-2">Datasets</h4>
+                            <p class="text-gray-400 text-xs leading-relaxed">
+                                The foundational fuel for AI models. A dataset is a structured collection of data. In AI, quality trumps quantity. Curating diverse, unbiased, and clean datasets is crucial for training robust models.
+                            </p>
+                        </div>
+                        
+                        <!-- Data Labeling & Annotation -->
+                        <div class="glass-card p-5 rounded-xl border-t-4 border-t-brand-primary">
+                            <div class="text-3xl text-brand-primary mb-3"><i class="fa-solid fa-tags"></i></div>
+                            <h4 class="text-lg font-bold text-white mb-2">Data Annotation</h4>
+                            <p class="text-gray-400 text-xs leading-relaxed mb-2">
+                                The process of adding metadata (tags/labels) to raw data (text, images, audio) so machines can understand it.
+                            </p>
+                            <ul class="text-xs text-gray-300 space-y-1 list-disc list-inside">
+                                <li>Bounding boxes (CV)</li>
+                                <li>Named Entity Recognition (NLP)</li>
+                                <li>Sentiment tagging</li>
+                                <li>RLHF preference ranking</li>
+                            </ul>
+                        </div>
+
+                        <!-- Data Transcribing -->
+                        <div class="glass-card p-5 rounded-xl border-t-4 border-t-purple-500">
+                            <div class="text-3xl text-purple-500 mb-3"><i class="fa-solid fa-ear-listen"></i></div>
+                            <h4 class="text-lg font-bold text-white mb-2">Data Transcribing</h4>
+                            <p class="text-gray-400 text-xs leading-relaxed">
+                                Converting spoken language (audio/video) into written text. This is a critical step for creating datasets for Speech-to-Text models or enabling LLMs to process multimedia content. Accuracy and handling of accents/noise are key challenges.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Module 4 -->
+                <div id="module-4" class="module-content">
+                     <div class="flex items-center gap-3 mb-6 border-b border-gray-800 pb-4">
+                        <div class="w-10 h-10 rounded-lg bg-brand-primary/20 flex items-center justify-center text-brand-primary">
+                            <i class="fa-regular fa-comment-dots"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white">Module 4: Prompt Engineering & Eval</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div>
+                            <h4 class="text-lg font-semibold text-brand-secondary mb-3">Prompt Engineering</h4>
+                            <p class="text-gray-300 text-sm mb-4">The art and science of communicating effectively with AI models to elicit desired responses. It involves crafting inputs structurally to guide the model.</p>
+                            
+                            <h5 class="text-sm font-bold text-gray-200 mt-4 mb-2">Common Mistakes</h5>
+                            <ul class="text-xs text-gray-400 space-y-2">
+                                <li><i class="fa-solid fa-xmark text-red-500 mr-2"></i> Being too vague or open-ended.</li>
+                                <li><i class="fa-solid fa-xmark text-red-500 mr-2"></i> Lacking context or role definition.</li>
+                                <li><i class="fa-solid fa-xmark text-red-500 mr-2"></i> Asking for multiple complex tasks in one go.</li>
+                                <li><i class="fa-solid fa-xmark text-red-500 mr-2"></i> Not specifying desired output format.</li>
+                            </ul>
+
+                            <h5 class="text-sm font-bold text-gray-200 mt-6 mb-2">AI Evaluation Focus Areas</h5>
+                            <div class="flex flex-wrap gap-2 text-xs">
+                                <span class="bg-gray-800 px-2 py-1 rounded">Factuality</span>
+                                <span class="bg-gray-800 px-2 py-1 rounded">Relevance</span>
+                                <span class="bg-gray-800 px-2 py-1 rounded">Safety/Toxicity</span>
+                                <span class="bg-gray-800 px-2 py-1 rounded">Tone/Persona</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <!-- Bad Example -->
+                            <div class="bg-red-950/20 border border-red-900/50 rounded-xl p-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="bg-red-500/20 text-red-400 text-xs px-2 py-0.5 rounded font-bold">BAD PROMPT</span>
+                                </div>
+                                <p class="text-gray-300 text-sm font-mono bg-black/30 p-2 rounded">"Write about marketing."</p>
+                                <p class="text-red-400/80 text-xs mt-2 italic">Why: Too broad, no target audience, no length specified, no format.</p>
+                            </div>
+
+                            <!-- Good Example -->
+                            <div class="bg-green-950/20 border border-green-900/50 rounded-xl p-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="bg-green-500/20 text-green-400 text-xs px-2 py-0.5 rounded font-bold">GOOD PROMPT</span>
+                                </div>
+                                <p class="text-gray-300 text-sm font-mono bg-black/30 p-2 rounded">"Act as a senior digital marketer. Write a 300-word introduction for a blog post aimed at small business owners explaining the benefits of social media advertising. Use an encouraging tone."</p>
+                                <p class="text-green-400/80 text-xs mt-2 italic">Why: Defines role, length, target audience, topic, and tone.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="quiz-section" class="py-24 relative overflow-hidden">
+        <!-- Decoration -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjEiIGZpbGw9InJnYmEoMTQsIDE2NSwgMjMzLCAwLjE1KSIvPjwvc3ZnPg==')] opacity-30"></div>
+        
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Mastery <span class="text-gradient-gold">Assessment</span></h2>
+                <p class="text-gray-400">Test your knowledge across all AI modules. You have 2 chances per question.</p>
+            </div>
+
+            <!-- Quiz Container -->
+            <div id="quiz-container" class="glass-card rounded-2xl p-6 md:p-10 border-t-4 border-t-brand-accent shadow-2xl">
+                
+                <!-- Start Screen -->
+                <div id="quiz-start" class="text-center py-10">
+                    <div class="w-20 h-20 mx-auto bg-brand-accent/20 rounded-full flex items-center justify-center mb-6">
+                        <i class="fa-solid fa-clipboard-list text-4xl text-brand-accent"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Comprehensive AI Quiz</h3>
+                    <p class="text-gray-400 mb-8 max-w-md mx-auto">20 Questions covering History of AI, ML, NLP, Data Pipelines, and Prompt Engineering.</p>
+                    <button onclick="startQuiz()" class="btn-luxury bg-brand-accent text-gray-900 font-bold px-8 py-4 rounded-xl text-lg hover:bg-yellow-400 shadow-[0_0_20px_rgba(245,158,11,0.3)]">
+                        Begin Assessment
+                    </button>
+                </div>
+
+                <!-- Active Question Screen -->
+                <div id="quiz-active" class="hidden">
+                    <div class="flex justify-between items-center mb-6 text-sm font-medium">
+                        <span class="bg-gray-800 text-gray-300 px-3 py-1 rounded-full border border-gray-700" id="question-counter">Question 1 of 20</span>
+                        <div class="flex gap-4">
+                            <span class="text-brand-accent"><i class="fa-solid fa-heart mr-1"></i> Chances: <span id="chances-left">2</span></span>
+                            <span class="text-brand-primary"><i class="fa-solid fa-star mr-1"></i> Score: <span id="current-score">0</span></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div class="w-full bg-gray-800 rounded-full h-1.5 mb-8">
+                        <div id="progress-bar" class="bg-gradient-to-r from-brand-primary to-brand-accent h-1.5 rounded-full transition-all duration-300" style="width: 5%"></div>
+                    </div>
+
+                    <h4 id="question-text" class="text-xl md:text-2xl font-semibold text-white mb-8 leading-snug"></h4>
+                    
+                    <div id="options-container" class="space-y-3 mb-8">
+                        <!-- Options injected via JS -->
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <div id="feedback-msg" class="text-sm font-medium min-h-[20px]"></div>
+                        <button id="next-btn" onclick="nextQuestion()" class="hidden bg-gray-100 text-gray-900 px-6 py-2 rounded-lg font-semibold hover:bg-white transition-colors">
+                            Next Question <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Screen -->
+                <div id="quiz-results" class="hidden text-center py-10">
+                    <div id="result-icon" class="w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6 text-5xl">
+                        <!-- Icon injected via JS -->
+                    </div>
+                    <h3 class="text-3xl font-bold text-white mb-2">Assessment Complete!</h3>
+                    <p class="text-gray-400 mb-6">You scored <span id="final-score" class="text-2xl font-bold text-brand-primary mx-1"></span> out of 20</p>
+                    
+                    <div id="result-message" class="text-lg font-medium mb-8 px-4 py-3 bg-gray-800/50 rounded-xl inline-block">
+                        <!-- Message injected via JS -->
+                    </div>
+                    
+                    <div>
+                        <button onclick="resetQuiz()" class="btn-luxury bg-brand-primary text-white font-medium px-8 py-3 rounded-xl hover:bg-sky-400 mr-4">
+                            <i class="fa-solid fa-rotate-right mr-2"></i> Retake Quiz
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-gray-900 bg-[#04060c] pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-6">
+                <div class="text-center md:text-left">
+                    <span class="font-serif text-2xl font-bold tracking-wider text-white">
+                        IMRAN<span class="text-brand-primary">.</span>
+                    </span>
+                    <p class="text-xs text-gray-500 mt-2 tracking-widest uppercase">Keep Learning. Keep Building. Keep Impacting.</p>
+                </div>
+                
+                <div class="flex gap-4">
+                    <a href="mailto:bizglobal12@gmail.com" class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-400 hover:text-white hover:bg-brand-primary transition-all">
+                        <i class="fa-solid fa-envelope"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-400 hover:text-white hover:bg-brand-primary transition-all">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                    <div class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-gray-400" title="Nigeria">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-900/50 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-xs text-gray-600">© <span id="year"></span> Imran Ahmad Auwal. All rights reserved.</p>
+                <p class="text-xs text-gray-600 flex items-center gap-1">
+                    Designed with <i class="fa-solid fa-bolt text-brand-accent"></i> for Excellence
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 20) {
+                nav.classList.add('shadow-lg', 'bg-opacity-90');
+                nav.classList.remove('bg-opacity-80');
+            } else {
+                nav.classList.remove('shadow-lg', 'bg-opacity-90');
+                nav.classList.add('bg-opacity-80');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        // Module Tabs Logic
+        function openModule(moduleId) {
+            // Hide all modules
+            document.querySelectorAll('.module-content').forEach(el => {
+                el.classList.remove('active');
+            });
+            // Reset all tabs
+            document.querySelectorAll('[id^="tab-"]').forEach(el => {
+                el.className = 'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border border-gray-700 bg-gray-800/50 text-gray-400 hover:text-white hover:border-gray-500';
+            });
+
+            // Show selected module
+            document.getElementById(`module-${moduleId}`).classList.add('active');
+            
+            // Highlight selected tab
+            const activeTab = document.getElementById(`tab-${moduleId}`);
+            activeTab.className = 'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 border border-brand-primary bg-brand-primary/10 text-white shadow-[0_0_15px_rgba(14,165,233,0.3)]';
+        }
+
+        // --- Quiz Data and Logic ---
+        const quizData = [
+            // Module 1: Fundamentals
+            { q: "Where is the field of Artificial Intelligence considered to have officially started?", options: ["MIT Labs", "Dartmouth Conference", "Stanford University", "Turing Institute"], answer: 1 },
+            { q: "Which of the following describes Machine Learning?", options: ["Explicitly programming every rule", "Systems learning from data patterns", "Hardware designed to mimic the brain", "A completely random selection process"], answer: 1 },
+            { q: "What does NLP stand for?", options: ["Natural Language Processing", "Neural Logic Programming", "New Learning Protocol", "Networked Language Parsing"], answer: 0 },
+            { q: "Deep Learning is based on which structural concept?", options: ["Decision Trees", "Linear Regression", "Artificial Neural Networks", "K-Means Clustering"], answer: 2 },
+            { q: "Which AI field helps computers understand digital images and videos?", options: ["Robotics", "Computer Vision", "NLP", "Expert Systems"], answer: 1 },
+            
+            // Module 2: AI Fluency
+            { q: "What architecture are modern Large Language Models typically based on?", options: ["Recurrent Neural Networks (RNNs)", "Transformers", "Convolutional Neural Networks", "Support Vector Machines"], answer: 1 },
+            { q: "What is an 'AI Hallucination'?", options: ["When the AI shuts down unexpectedly", "A visual generated by an image model", "When an LLM confidently presents false information", "The process of AI dreaming during downtime"], answer: 2 },
+            { q: "Which is a key component of AI Fluency?", options: ["Knowing how to build a server", "Understanding AI capabilities and limitations", "Typing extremely fast", "Memorizing programming languages"], answer: 1 },
+            { q: "What role does 'Human-in-the-Loop' play?", options: ["Slows down the processor", "Verifies and ensures quality of AI outputs", "Writes the initial source code", "Generates the electricity for servers"], answer: 1 },
+            { q: "LLMs predict the next ______ in a sequence.", options: ["Sentence", "Paragraph", "Token/Word", "Database Entry"], answer: 2 },
+
+            // Module 3: Data Pipeline
+            { q: "Why is data curation important in AI?", options: ["To make files smaller", "Because quality trumps quantity for robust models", "To increase training time", "It is actually not important"], answer: 1 },
+            { q: "What is Data Annotation?", options: ["Deleting old data", "Compressing files into ZIPs", "Adding metadata/tags to raw data", "Translating data to French"], answer: 2 },
+            { q: "Which annotation task is common in Computer Vision?", options: ["Sentiment tagging", "Bounding boxes", "Transcribing audio", "Prompt writing"], answer: 1 },
+            { q: "Data transcribing primarily involves converting:", options: ["Text to Speech", "Images to Text", "Spoken language to written text", "Code to binary"], answer: 2 },
+            { q: "What does RLHF stand for?", options: ["Random Logic Heavy Formulation", "Reinforcement Learning from Human Feedback", "Rapid Language Heuristic Formatting", "Real-time Learning Hybrid Framework"], answer: 1 },
+
+            // Module 4: Prompt Engineering
+            { q: "What is Prompt Engineering?", options: ["Repairing AI hardware", "Crafting effective inputs to guide AI models", "Writing backend server code", "Evaluating OCR accuracy"], answer: 1 },
+            { q: "Which is considered a BAD prompt practice?", options: ["Assigning a role/persona", "Specifying output length", "Being too vague or open-ended", "Providing clear context"], answer: 2 },
+            { q: "In AI Evaluation, what does 'Factuality' refer to?", options: ["How fast the response is generated", "The truthfulness and accuracy of the information", "The length of the response", "The polite tone of the bot"], answer: 1 },
+            { q: "Why assign a 'role' in a prompt? (e.g., 'Act as a senior marketer')", options: ["It forces the AI to use more computing power", "It sets the tone, perspective, and expertise level", "It is a required syntax for all LLMs", "It prevents hallucinations entirely"], answer: 1 },
+            { q: "Which of these makes a prompt highly effective?", options: ["Using very complex vocabulary", "Asking 5 unrelated questions at once", "Clear instructions, context, and desired format", "Keeping it under 3 words"], answer: 2 }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let chances = 2;
+        let isQuestionAnswered = false;
+
+        const startScreen = document.getElementById('quiz-start');
+        const activeScreen = document.getElementById('quiz-active');
+        const resultsScreen = document.getElementById('quiz-results');
+        const optionsContainer = document.getElementById('options-container');
+        const nextBtn = document.getElementById('next-btn');
+        const feedbackMsg = document.getElementById('feedback-msg');
+
+        function startQuiz() {
+            startScreen.classList.add('hidden');
+            resultsScreen.classList.add('hidden');
+            activeScreen.classList.remove('hidden');
+            currentQuestion = 0;
+            score = 0;
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const qData = quizData[currentQuestion];
+            chances = 2; // Reset chances for new question
+            isQuestionAnswered = false;
+            
+            document.getElementById('question-counter').innerText = `Question ${currentQuestion + 1} of ${quizData.length}`;
+            document.getElementById('question-text').innerText = qData.q;
+            document.getElementById('chances-left').innerText = chances;
+            document.getElementById('current-score').innerText = score;
+            document.getElementById('progress-bar').style.width = `${((currentQuestion) / quizData.length) * 100}%`;
+            
+            feedbackMsg.innerText = '';
+            nextBtn.classList.add('hidden');
+            optionsContainer.innerHTML = '';
+
+            qData.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn w-full text-left p-4 rounded-xl border border-gray-700 bg-gray-800/50 text-gray-300 hover:bg-gray-700 transition-all font-medium';
+                // Add letter prefix (A, B, C, D)
+                const letter = String.fromCharCode(65 + index);
+                btn.innerHTML = `<span class="inline-block w-6 font-bold text-gray-500 mr-2">${letter}.</span> ${opt}`;
+                btn.onclick = () => selectOption(btn, index);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedBtn, selectedIndex) {
+            if (isQuestionAnswered) return;
+
+            const qData = quizData[currentQuestion];
+            const buttons = optionsContainer.children;
+
+            // Remove previous selection styling
+            Array.from(buttons).forEach(btn => btn.classList.remove('selected'));
+            selectedBtn.classList.add('selected');
+
+            if (selectedIndex === qData.answer) {
+                // Correct
+                selectedBtn.classList.add('correct');
+                feedbackMsg.innerHTML = '<span class="text-green-500"><i class="fa-solid fa-circle-check mr-1"></i> Correct!</span>';
+                score++;
+                document.getElementById('current-score').innerText = score;
+                isQuestionAnswered = true;
+                disableOptions();
+                nextBtn.classList.remove('hidden');
+            } else {
+                // Wrong
+                chances--;
+                document.getElementById('chances-left').innerText = chances;
+                selectedBtn.classList.add('wrong');
+                
+                if (chances > 0) {
+                    feedbackMsg.innerHTML = `<span class="text-yellow-500"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Incorrect. Try again! (${chances} chance left)</span>`;
+                    // Remove wrong class after animation so it can shake again if they click another wrong one
+                    setTimeout(() => selectedBtn.classList.remove('wrong'), 500);
+                    // Disable the clicked wrong button
+                    selectedBtn.disabled = true;
+                    selectedBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    // Out of chances
+                    feedbackMsg.innerHTML = '<span class="text-red-500"><i class="fa-solid fa-circle-xmark mr-1"></i> Incorrect. Moving on.</span>';
+                    // Highlight correct answer
+                    buttons[qData.answer].classList.add('correct');
+                    isQuestionAnswered = true;
+                    disableOptions();
+                    nextBtn.classList.remove('hidden');
+                }
+            }
+        }
+
+        function disableOptions() {
+            const buttons = optionsContainer.children;
+            Array.from(buttons).forEach(btn => {
+                btn.disabled = true;
+                btn.classList.add('cursor-not-allowed');
+                if(!btn.classList.contains('correct') && !btn.classList.contains('wrong')) {
+                    btn.classList.add('opacity-50');
+                }
+            });
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            activeScreen.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+            
+            document.getElementById('final-score').innerText = score;
+            const percentage = (score / quizData.length) * 100;
+            
+            const msgEl = document.getElementById('result-message');
+            const iconEl = document.getElementById('result-icon');
+            
+            if (percentage >= 90) {
+                iconEl.innerHTML = '<i class="fa-solid fa-trophy text-yellow-400"></i>';
+                iconEl.className = 'w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6 text-5xl bg-yellow-400/20 shadow-[0_0_30px_rgba(250,204,21,0.4)]';
+                msgEl.innerText = "Exceptional! You have a profound understanding of AI.";
+                msgEl.className = "text-lg font-medium mb-8 px-4 py-3 bg-yellow-500/10 text-yellow-400 rounded-xl inline-block border border-yellow-500/30";
+            } else if (percentage >= 70) {
+                iconEl.innerHTML = '<i class="fa-solid fa-award text-brand-primary"></i>';
+                iconEl.className = 'w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6 text-5xl bg-brand-primary/20 shadow-[0_0_30px_rgba(14,165,233,0.4)]';
+                msgEl.innerText = "Great job! You have solid AI Fluency.";
+                msgEl.className = "text-lg font-medium mb-8 px-4 py-3 bg-brand-primary/10 text-brand-primary rounded-xl inline-block border border-brand-primary/30";
+            } else {
+                iconEl.innerHTML = '<i class="fa-solid fa-book text-gray-400"></i>';
+                iconEl.className = 'w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6 text-5xl bg-gray-800';
+                msgEl.innerText = "Good effort. Review the study modules and try again!";
+                msgEl.className = "text-lg font-medium mb-8 px-4 py-3 bg-gray-800 text-gray-300 rounded-xl inline-block border border-gray-700";
+            }
+        }
+
+        function resetQuiz() {
+            startQuiz();
+        }
+
+        // Initialize first module as active on load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Trigger animations
+            setTimeout(() => {
+                document.querySelectorAll('.animate-slide-up').forEach((el, index) => {
+                    setTimeout(() => {
+                        el.style.opacity = '1';
+                    }, index * 200);
+                });
+            }, 100);
+        });
+
+    </script>
+</body>
+</html>
